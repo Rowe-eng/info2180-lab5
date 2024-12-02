@@ -1,35 +1,35 @@
-window.onload= function(){
+window.onload = function() {
     var button = document.getElementById("lookup");
-    var city = document.getElementById("button");
-    var result= document.getElementById("result");
-    var searchValue=document.getElementById("country");
-    
-    button.addEventListener("click",function(){
-        Req = new XMLHttpRequest();
-        var url="http://localhost/info2180-lab5/world.php?country=" +searchValue.value+"&lookup=";
-        Req.open('GET',url);
-        Req.send();
-        Req.onreadystatechange=respond;
+    var cityButton = document.getElementById("button");
+    var result = document.getElementById("result");
+    var searchValue = document.getElementById("country");
+
+    // Event listener for "Lookup Country" button
+    button.addEventListener("click", function() {
+        var url = "http://localhost/info2180-lab5/world.php?country=" + searchValue.value + "&lookup=";
+        sendRequest(url);
     });
-    
 
-    city.addEventListener("click",function(){
-      Req = new XMLHttpRequest();
-      var url="http://localhost/info2180-lab5/world.php?country="+searchValue.value +"&lookup=cities";
-      Req.open('GET',url);
-      Req.send();
-      Req.onreadystatechange=respond;
-  });
+    // Event listener for "Lookup Cities" button
+    cityButton.addEventListener("click", function() {
+        var url = "http://localhost/info2180-lab5/world.php?country=" + searchValue.value + "&lookup=cities";
+        sendRequest(url);
+    });
 
+    // Function to send the request and handle the response
+    function sendRequest(url) {
+        var req = new XMLHttpRequest();
+        req.open('GET', url);
+        req.send();
 
-    function respond() {
-        if (Req.readyState === XMLHttpRequest.DONE) {
-          if (Req.status === 200) {
-            result.innerHTML=Req.responseText;
-          } else {
-            alert('Error');
-          }
-        }
-      }
+        req.onreadystatechange = function() {
+            if (req.readyState === XMLHttpRequest.DONE) {
+                if (req.status === 200) {
+                    result.innerHTML = req.responseText;
+                } else {
+                    alert('Error: ' + req.status);
+                }
+            }
+        };
     }
-    
+};
